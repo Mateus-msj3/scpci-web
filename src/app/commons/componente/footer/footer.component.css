@@ -1,0 +1,11 @@
+footer.fixar-rodape {
+  font-family: 'calibri light', calibri, arial, sans-serif;
+  font-size: 10px;
+  border-top: 1px solid #eceaea;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+}
+
