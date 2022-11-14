@@ -1,0 +1,19 @@
+.titulo-form {
+  color: #6d6c6c;
+  font-family: 'calibri light', calibri, arial, sans-serif;
+  border-bottom: 1px solid #edecec;
+  margin-bottom: 10px;
+}
+
+.input{
+  width: 256px;
+}
+
+.button {
+  width: 150px;
+}
+
+.button-limpar {
+  margin-left: 10px;
+  width: 150px;
+}
