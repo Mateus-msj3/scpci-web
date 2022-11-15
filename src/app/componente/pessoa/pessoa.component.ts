@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DetalhamentoPessoaComponent} from "./detalhamento-pessoa/detalhamento-pessoa.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pessoa',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PessoaComponent implements OnInit {
 
-  constructor() { }
+  ref?: DynamicDialogRef;
+
+  constructor(private dialogService: DialogService, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
+  abrirTelaDeDetalhes() {
+    this.ref = this.dialogService.open(DetalhamentoPessoaComponent, {
+      header: 'Detalhes',
+      width: '80%',
+      contentStyle: {"overflow": "auto"},
+      baseZIndex: 10000,
+      maximizable: true
+    });
+
+
+  }
 }

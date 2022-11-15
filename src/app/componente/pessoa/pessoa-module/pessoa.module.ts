@@ -7,6 +7,20 @@ import {CardModule} from "primeng/card";
 import {InputTextModule} from "primeng/inputtext";
 import {InputMaskModule} from "primeng/inputmask";
 import {RouterModule, Routes} from "@angular/router";
+import {DetalhamentoPessoaComponent} from "../detalhamento-pessoa/detalhamento-pessoa.component";
+import {DialogService, DynamicDialogModule} from "primeng/dynamicdialog";
+import {ToastModule} from "primeng/toast";
+import {ToolbarModule} from "primeng/toolbar";
+import {FileUploadModule} from "primeng/fileupload";
+import {TableModule} from "primeng/table";
+import {RatingModule} from "primeng/rating";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {InputNumberModule} from "primeng/inputnumber";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {HttpClient} from "@angular/common/http";
 
 
 const routes: Routes = [
@@ -16,6 +30,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     PessoaComponent,
+    DetalhamentoPessoaComponent,
   ],
   imports: [
     CommonModule,
@@ -24,13 +39,28 @@ const routes: Routes = [
     CardModule,
     InputTextModule,
     InputMaskModule,
+    DynamicDialogModule,
+    ToastModule,
+    ToolbarModule,
+    FileUploadModule,
+    TableModule,
+    RatingModule,
+    DialogModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ConfirmDialogModule,
     RouterModule.forRoot(routes),
   ],
   exports: [
     PessoaComponent,
+    DetalhamentoPessoaComponent,
   ],
   providers: [
-
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    HttpClient
   ]
 })
 export class PessoaModule { }
