@@ -5,6 +5,8 @@ import {AppComponent} from './app.component';
 import {CommonsModule} from "./commons/module/commons/commons.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PessoaModule} from "./componente/pessoa/pessoa-module/pessoa.module";
+import {CepService} from "./commons/service/cep.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -16,8 +18,9 @@ import {PessoaModule} from "./componente/pessoa/pessoa-module/pessoa.module";
     CommonsModule,
     BrowserAnimationsModule,
     PessoaModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [CepService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

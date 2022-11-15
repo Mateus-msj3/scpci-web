@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <form>
+  <form [formGroup]="formulario" (ngSubmit)="salvar()">
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
         <span class="p-float-label">
@@ -47,7 +47,7 @@
             <div class="field col-12 md:col-8">
               <span class="p-float-label p-input-icon-right">
                 <i class="pi pi-search"></i>
-                <input id="float-input-cep" type="text" pInputText class="p-inputtext-sm input">
+                <input id="float-input-cep" type="text" pInputText class="p-inputtext-sm input" formControlName="cep" (blur)="consultarCep($event, formulario)">
                 <label for="float-input-email">CEP</label>
               </span>
             </div>
@@ -79,7 +79,7 @@
         </p-fieldset>
       </div>
     </div>
-    <button pButton pRipple type="button" label="Salvar" icon="pi pi-save" iconPos="right" class="button"></button>
-    <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar" icon="pi pi-refresh" iconPos="right"></button>
+    <button pButton pRipple type="submit" label="Salvar" icon="pi pi-save" iconPos="right" class="button"></button>
+    <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar" icon="pi pi-refresh" iconPos="right" (click)="limparFormulario()"></button>
   </form>
 </div>
