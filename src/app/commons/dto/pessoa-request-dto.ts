@@ -6,7 +6,7 @@ export class PessoaRequestDTO {
 
   sobrenome?: string;
 
-  dataNascimento = new Date();
+  dataNascimento?: Date;
 
   cpf?: string;
 
