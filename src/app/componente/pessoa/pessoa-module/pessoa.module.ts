@@ -20,9 +20,9 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {HttpClient, HttpHandler} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
-import {CepService} from "../../../commons/service/cep.service";
+import {NgxMaskModule} from "ngx-mask";
 
 
 const routes: Routes = [
@@ -54,6 +54,7 @@ const routes: Routes = [
     ConfirmDialogModule,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
   ],
   exports: [
     PessoaComponent,

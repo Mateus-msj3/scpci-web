@@ -5,7 +5,8 @@
       <h3 class="">Cadastro de Pessoa</h3>
     </div>
     <div class="p-fluid col-12 md:col-2">
-      <button pButton pRipple type="button" label="Filtrar" class="p-button-raised p-button-text" icon="pi pi-search" iconPos="right" (click)="abrirTelaDeDetalhes()"></button>
+      <button pButton pRipple type="button" label="Filtrar" class="p-button-raised p-button-text" icon="pi pi-search"
+              iconPos="right" (click)="abrirTelaDeDetalhes()"></button>
     </div>
   </div>
 
@@ -13,43 +14,52 @@
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
         <span class="p-float-label">
-          <input id="nome" type="text" pInputText aria-describedby="erro-nome" class="w-full p-inputtext-sm" formControlName="nome">
+          <input id="nome" type="text" pInputText aria-describedby="erro-nome" class="w-full p-inputtext-sm"
+                 formControlName="nome">
           <label for="nome">Nome</label>
-          <small id="erro-nome" class="block" *ngIf="nome.invalid && (nome.dirty || nome.touched && nome.errors?.['required'])"
+          <small id="erro-nome" class="block"
+                 *ngIf="nome.invalid && (nome.dirty || nome.touched && nome.errors?.['required'])"
                  class="msg-erro">*campo obrigatório.</small>
         </span>
       </div>
       <div class="field col-12 md:col-6">
         <span class="p-float-label">
-          <input id="sobrenome" type="text" pInputText aria-describedby="erro-sobrenome" class="w-full p-inputtext-sm" formControlName="sobrenome">
+          <input id="sobrenome" type="text" pInputText aria-describedby="erro-sobrenome" class="w-full p-inputtext-sm"
+                 formControlName="sobrenome">
           <label for="sobrenome">Sobrenome</label>
-          <small id="erro-sobrenome" class="block" *ngIf="sobrenome.invalid && (sobrenome.dirty || sobrenome.touched && sobrenome.errors?.['required'])"
+          <small id="erro-sobrenome" class="block"
+                 *ngIf="sobrenome.invalid && (sobrenome.dirty || sobrenome.touched && sobrenome.errors?.['required'])"
                  class="msg-erro">*campo obrigatório.</small>
         </span>
       </div>
       <div class="field col-12 md:col-8">
         <span class="p-float-label">
-          <p-calendar dateFormat="dd-mm-yy" inputId="dataNascimento" aria-describedby="erro-sobrenome" class="p-inputtext-sm input" [showIcon]="true" formControlName="dataNascimento"></p-calendar>
+          <p-calendar dateFormat="dd-mm-yy" inputId="dataNascimento" aria-describedby="erro-sobrenome"
+                      class="p-inputtext-sm input" [showIcon]="true" formControlName="dataNascimento"></p-calendar>
           <label for="dataNascimento">Data de Nascimento</label>
-          <small id="erro-data" class="block" *ngIf="dataNascimento.invalid && (dataNascimento.dirty || dataNascimento.touched && dataNascimento.errors?.['required'])"
-                 class="msg-erro">*campo obrigatório.</small>
         </span>
+        <small id="erro-data" class="block"
+               *ngIf="dataNascimento.invalid && (dataNascimento.dirty || dataNascimento.touched && dataNascimento.errors?.['required'])"
+               class="msg-erro">*campo obrigatório.</small>
       </div>
       <div class="field col-12 md:col-8">
         <span class="p-float-label">
-          <input id="cpf" type="text" pInputText aria-describedby="erro-cpf" class="p-inputtext-sm input" formControlName="cpf">
+          <input id="cpf" type="text" pInputText aria-describedby="erro-cpf" class="p-inputtext-sm input"
+                 formControlName="cpf" mask="000.000.000-00">
           <label for="cpf">CPF</label>
-          <small id="erro-cpf" class="block" *ngIf="cpf.invalid && (cpf.dirty || cpf.touched && cpf.errors?.['required'])"
-                 class="msg-erro">*campo obrigatório.</small>
         </span>
+        <small id="erro-cpf" class="block" *ngIf="cpf.invalid && (cpf.dirty || cpf.touched && cpf.errors?.['required'])"
+               class="msg-erro">*campo obrigatório.</small>
       </div>
       <div class="field col-12 md:col-8">
         <span class="p-float-label">
-          <input id="email" type="email" pInputText aria-describedby="erro-email" class="p-inputtext-sm input" formControlName="email">
+          <input id="email" type="email" pInputText aria-describedby="erro-email" class="p-inputtext-sm input"
+                 formControlName="email">
           <label for="email">Email</label>
-          <small id="erro-email" class="block" *ngIf="email.invalid && (email.dirty || email.touched && email.errors?.['required'])"
-                 class="msg-erro">*Informe um email válido.</small>
         </span>
+        <small id="erro-email" class="block"
+               *ngIf="email.invalid && (email.dirty || email.touched && email.errors?.['required'])"
+               class="msg-erro">*Informe um email válido.</small>
       </div>
 
       <div class="field col-12">
@@ -58,49 +68,60 @@
             <div class="field col-12 md:col-8">
               <span class="p-float-label p-input-icon-right">
                 <i class="pi pi-search"></i>
-                <input id="cep" type="text" pInputText aria-describedby="erro-cep" class="p-inputtext-sm input" formControlName="cep" (blur)="consultarCep($event, formulario)">
+                <input id="cep" type="text" pInputText aria-describedby="erro-cep" class="p-inputtext-sm input"
+                       formControlName="cep" (blur)="consultarCep($event, formulario)">
                 <label for="cep">CEP</label>
-                <small id="erro-cep" class="block" *ngIf="cep.invalid && (cep.dirty || cep.touched && cep.errors?.['required'])"
-                       class="msg-erro">*campo obrigatório.</small>
               </span>
+              <small id="erro-cep" class="block"
+                     *ngIf="cep.invalid && (cep.dirty || cep.touched && cep.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
             </div>
             <div class="field col-12 md:col-8">
               <span class="p-float-label">
-                <input id="rua" type="text" aria-describedby="erro-rua" pInputText class="w-full p-inputtext-sm" formControlName="rua" [readonly]="ruaNaoEncontrada">
+                <input id="rua" type="text" aria-describedby="erro-rua" pInputText class="w-full p-inputtext-sm"
+                       formControlName="rua" [readonly]="ruaNaoEncontrada">
                 <label for="rua">Rua</label>
-                <small id="erro-rua" class="block" *ngIf="rua.invalid && (rua.dirty || rua.touched && rua.errors?.['required'])"
+                <small id="erro-rua" class="block"
+                       *ngIf="rua.invalid && (rua.dirty || rua.touched && rua.errors?.['required'])"
                        class="msg-erro">*campo obrigatório.</small>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input id="numero" type="text" pInputText aria-describedby="erro-numero" class="p-inputtext-sm input" formControlName="numero" [readonly]="numeroNaoEncontrado">
+                <input id="numero" type="text" pInputText aria-describedby="erro-numero" class="p-inputtext-sm input"
+                       formControlName="numero" [readonly]="numeroNaoEncontrado">
                 <label for="numero">Número</label>
-                <small id="erro-numero" class="block" *ngIf="numero.invalid && (numero.dirty || numero.touched && numero.errors?.['required'])"
-                       class="msg-erro">*campo obrigatório.</small>
               </span>
+              <small id="erro-numero" class="block"
+                     *ngIf="numero.invalid && (numero.dirty || numero.touched && numero.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
             </div>
             <div class="field col-12 md:col-8">
               <span class="p-float-label">
-                <input id="cidade" type="text" pInputText aria-describedby="erro-cidade" class="w-full p-inputtext-sm" formControlName="cidade" [readonly]="cidadeNaoEncontrada">
+                <input id="cidade" type="text" pInputText aria-describedby="erro-cidade" class="w-full p-inputtext-sm"
+                       formControlName="cidade" [readonly]="cidadeNaoEncontrada">
                 <label for="cidade">Cidade</label>
-                <small id="erro-cidade" class="block" *ngIf="cidade.invalid && (cidade.dirty || cidade.touched && cidade.errors?.['required'])"
+                <small id="erro-cidade" class="block"
+                       *ngIf="cidade.invalid && (cidade.dirty || cidade.touched && cidade.errors?.['required'])"
                        class="msg-erro">*campo obrigatório.</small>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input id="estado" type="text" pInputText aria-describedby="erro-estado"class="p-inputtext-sm input" formControlName="estado" [readonly]="estadoNaoEncontrado">
+                <input id="estado" type="text" pInputText aria-describedby="erro-estado" class="p-inputtext-sm input"
+                       formControlName="estado" [readonly]="estadoNaoEncontrado">
                 <label for="estado">Estado</label>
-                <small id="erro-estado" class="block" *ngIf="estado.invalid && (estado.dirty || estado.touched && estado.errors?.['required'])"
-                       class="msg-erro">*campo obrigatório.</small>
               </span>
+              <small id="erro-estado" class="block"
+                     *ngIf="estado.invalid && (estado.dirty || estado.touched && estado.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
             </div>
           </div>
         </p-fieldset>
       </div>
     </div>
     <button pButton pRipple type="submit" label="Salvar" icon="pi pi-save" iconPos="right" class="button"></button>
-    <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar" icon="pi pi-refresh" iconPos="right" (click)="limparFormulario()"></button>
+    <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar" icon="pi pi-refresh"
+            iconPos="right" (click)="limparFormulario()"></button>
   </form>
 </div>
