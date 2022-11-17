@@ -23,6 +23,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {HttpClient} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgxMaskModule} from "ngx-mask";
+import {CommonsModule} from "../../../commons/module/commons/commons.module";
 
 
 const routes: Routes = [
@@ -55,6 +56,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
+    CommonsModule,
   ],
   exports: [
     PessoaComponent,

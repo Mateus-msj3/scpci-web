@@ -1,10 +1,9 @@
 <p-toast></p-toast>
-
+<app-loading></app-loading>
 <div class="card">
-  <p-table #dt [value]="products" [rows]="10" [paginator]="true"
+  <p-table #dt [value]="pessoas" [rows]="5" [paginator]="true"
            [globalFilterFields]="['name','country.name','representative.name','status']"
            [tableStyle]="{'min-width': '75rem'}"
-           [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
            [responsive]="true"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
            [showCurrentPageReport]="true">
@@ -35,28 +34,21 @@
         <th pSortableColumn="inventoryStatus" style="min-width:10rem">Cidade
           <p-sortIcon field="inventoryStatus"></p-sortIcon>
         </th>
+        <th style="min-width:10rem">Ações
+        </th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-pessoa>
       <tr>
-        <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
-        </td>
-        <td>{{product.name}}</td>
-        <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100"
-                 class="shadow-4"/></td>
-        <td>{{product.price | currency:'USD'}}</td>
-        <td>{{product.category}}</td>
-        <td>
-          <p-rating [readonly]="true" [cancel]="false"></p-rating>
-        </td>
-        <td><span
-          [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span>
-        </td>
+        <td>{{pessoa.nome +" " + pessoa.sobrenome}}</td>
+        <td>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</td>
+        <td>{{pessoa.cpf}}</td>
+        <td>{{pessoa.email}}</td>
+        <td>{{pessoa.endereco?.cidade + " - " + pessoa.endereco?.estado}}</td>
         <td>
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                  (click)="editProduct(product)"></button>
+                  (click)="editProduct(pessoa)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                   (click)="deleteProduct(product)"></button>
         </td>
@@ -64,7 +56,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        Total de Pessoas cadastradas: {{products ? products.length : 0 }}
+        Total de Pessoas cadastradas: {{pessoas ? pessoas.length : 0 }}
       </div>
     </ng-template>
   </p-table>

@@ -1,6 +1,6 @@
 import {Endereco} from "./endereco";
 
-export class PessoaRequestDTO {
+export class PessoaResponseDTO {
 
   nome?: string;
 

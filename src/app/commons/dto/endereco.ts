@@ -1,4 +1,4 @@
-export class EnderecoRequestDTO {
+export class Endereco {
 
   cep?: string;
 
