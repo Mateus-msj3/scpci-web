@@ -15,14 +15,12 @@ import {PessoaService} from "./service/pessoa.service";
 export class PessoaComponent implements OnInit {
 
   ref?: DynamicDialogRef;
-  formulario?: FormGroup;
+  formulario!: FormGroup;
 
   ruaNaoEncontrada: boolean = true;
   numeroNaoEncontrado: boolean = true;
   cidadeNaoEncontrada: boolean = true;
   estadoNaoEncontrado: boolean = true;
-
-  mostrarMsgErro: boolean = false;
 
   constructor(private dialogService: DialogService,
               private cepService: CepService,
@@ -118,17 +116,32 @@ export class PessoaComponent implements OnInit {
   }
 
   salvar() {
-    if (this.formulario?.valid) {
-      const pessoa: PessoaRequestDTO = this.formulario?.getRawValue();
+    if (this.formulario.valid) {
+      const pessoa: PessoaRequestDTO = this.formulario.getRawValue();
+
       this.pessoaService.salvar(pessoa).subscribe((response) => {
         this.adicionarMensagem('success', 'Registro salvo com sucesso!');
         this.limparFormulario();
+      }, error => {
+        let erro = JSON.stringify(error.error.errors[0]);
+        this.adicionarMensagem('error', erro);
       });
 
     } else {
+      this.verficaValidacoesForm(this.formulario);
       this.adicionarMensagem('error', 'É necessário preencher todos os campos obrigatórios!');
     }
 
+  }
+
+  verficaValidacoesForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(campo => {
+      const controle = formGroup.get(campo);
+      controle?.markAsDirty()
+      if (controle instanceof  FormGroup) {
+        this.verficaValidacoesForm(controle);
+      }
+    });
   }
 
   adicionarMensagem(tipo: string, mensagem: string) {
