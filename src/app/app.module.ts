@@ -6,7 +6,8 @@ import {CommonsModule} from "./commons/module/commons/commons.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PessoaModule} from "./componente/pessoa/pessoa-module/pessoa.module";
 import {CepService} from "./commons/service/cep.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {LoadingInterceptor} from "./commons/interceptor/loading.interceptor";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,14 @@ import {HttpClientModule} from "@angular/common/http";
     PessoaModule,
     HttpClientModule,
   ],
-  providers: [CepService],
+  providers: [
+    CepService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
