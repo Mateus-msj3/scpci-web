@@ -1,11 +1,8 @@
-import {Injectable} from '@angular/core';
 import {AbstractCrudService} from "../interface/abstract-crud-service";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
-@Injectable({
-  providedIn: 'root'
-})
+
 export abstract class CrudService<T, ID> implements AbstractCrudService<T, ID> {
 
   constructor(protected _http: HttpClient, protected _baseUrl: string) {

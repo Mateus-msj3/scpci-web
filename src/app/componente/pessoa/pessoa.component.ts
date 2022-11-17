@@ -5,6 +5,7 @@ import {CepService} from "../../commons/service/cep.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PessoaRequestDTO} from "../../commons/dto/pessoa-request-dto";
 import {MessageService} from "primeng/api";
+import {PessoaService} from "./service/pessoa.service";
 
 @Component({
   selector: 'app-pessoa',
@@ -26,7 +27,8 @@ export class PessoaComponent implements OnInit {
   constructor(private dialogService: DialogService,
               private cepService: CepService,
               private formBuilder: FormBuilder,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private pessoaService: PessoaService) {
   }
 
   ngOnInit(): void {
@@ -50,11 +52,14 @@ export class PessoaComponent implements OnInit {
       dataNascimento: [pessoa.dataNascimento, Validators.required],
       cpf: [pessoa.cpf, Validators.required],
       email: [pessoa.email, [Validators.required, Validators.email]],
-      cep: [pessoa.endereco?.cep, Validators.required],
-      cidade: [pessoa.endereco?.cidade, Validators.required],
-      estado: [pessoa.endereco?.estado, Validators.required],
-      rua: [pessoa.endereco?.rua, Validators.required],
-      numero: [pessoa.endereco?.numero, Validators.required],
+
+      endereco: this.formBuilder.group({
+        cep: [pessoa.endereco?.cep, Validators.required],
+        cidade: [pessoa.endereco?.cidade, Validators.required],
+        estado: [pessoa.endereco?.estado, Validators.required],
+        rua: [pessoa.endereco?.rua, Validators.required],
+        numero: [pessoa.endereco?.numero, Validators.required],
+      })
     });
   }
 
@@ -63,7 +68,6 @@ export class PessoaComponent implements OnInit {
 
     this.cepService.buscar(cep).subscribe((dados: any) => {
       if (!dados.erro) {
-        debugger
         this.preencherCamposEndereco(dados, form);
         this.verficarCamposEnderecoAntesDeHabilitarEdicao(dados);
       } else {
@@ -102,36 +106,36 @@ export class PessoaComponent implements OnInit {
 
 
   preencherCamposEndereco(dados: any, form: any) {
-    this.formulario?.setValue({
-      nome: this.nome?.value,
-      sobrenome: this.sobrenome?.value,
-      dataNascimento: this.dataNascimento?.value,
-      cpf: this.cpf?.value,
-      email: this.email?.value,
-      cep: dados?.cep,
-      cidade: dados?.localidade,
-      estado: dados?.uf,
-      rua: dados?.logradouro,
-      numero: dados?.gia,
+    this.formulario?.patchValue({
+      endereco: {
+        cep: dados?.cep,
+        cidade: dados?.localidade,
+        estado: dados?.uf,
+        rua: dados?.logradouro,
+        numero: dados?.gia,
+      }
     });
-  }
-
-  validarFormulario(form: FormGroup) {
-
   }
 
   salvar() {
     if (this.formulario?.valid) {
-      const t: PessoaRequestDTO = this.formulario?.getRawValue();
-      console.log(t);
-    } else {
-      this.mostrarMsgErro = true;
-      this.messageService.add({
-        severity: 'error',
-        summary: 'É necessário preencher todos os campos obrigatórios'
+      const pessoa: PessoaRequestDTO = this.formulario?.getRawValue();
+      this.pessoaService.salvar(pessoa).subscribe((response) => {
+        this.adicionarMensagem('success', 'Registro salvo com sucesso!');
+        this.limparFormulario();
       });
+
+    } else {
+      this.adicionarMensagem('error', 'É necessário preencher todos os campos obrigatórios!');
     }
 
+  }
+
+  adicionarMensagem(tipo: string, mensagem: string) {
+    this.messageService.add({
+      severity: tipo,
+      summary: mensagem
+    });
   }
 
   limparFormulario() {
@@ -159,23 +163,23 @@ export class PessoaComponent implements OnInit {
   }
 
   get cep() {
-    return this.formulario?.get('cep');
+    return this.formulario?.get('endereco.cep');
   }
 
   get cidade() {
-    return this.formulario?.get('cidade');
+    return this.formulario?.get('endereco.cidade');
   }
 
   get estado() {
-    return this.formulario?.get('estado');
+    return this.formulario?.get('endereco.estado');
   }
 
   get rua() {
-    return this.formulario?.get('rua');
+    return this.formulario?.get('endereco.rua');
   }
 
   get numero() {
-    return this.formulario?.get('numero');
+    return this.formulario?.get('endereco.numero');
   }
 
 }
