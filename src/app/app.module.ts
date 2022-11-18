@@ -6,8 +6,9 @@ import {CommonsModule} from "./commons/module/commons/commons.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PessoaModule} from "./componente/pessoa/pessoa-module/pessoa.module";
 import {CepService} from "./commons/service/cep.service";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {LoadingInterceptor} from "./commons/interceptor/loading.interceptor";
+import {TranslateLoader, TranslateModule, TranslateService, TranslateStore} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -20,9 +21,12 @@ import {LoadingInterceptor} from "./commons/interceptor/loading.interceptor";
     BrowserAnimationsModule,
     PessoaModule,
     HttpClientModule,
+    TranslateModule.forRoot(),
   ],
   providers: [
     CepService,
+    TranslateService,
+    TranslateStore,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
