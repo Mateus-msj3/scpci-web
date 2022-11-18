@@ -24,6 +24,7 @@ import {HttpClient} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgxMaskModule} from "ngx-mask";
 import {CommonsModule} from "../../../commons/module/commons/commons.module";
+import {CpfPipe} from "../../../commons/pipe/cpf.pipe";
 
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
   declarations: [
     PessoaComponent,
     DetalhamentoPessoaComponent,
+    CpfPipe,
   ],
   imports: [
     CommonModule,

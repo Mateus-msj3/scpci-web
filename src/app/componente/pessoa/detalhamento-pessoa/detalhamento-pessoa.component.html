@@ -43,9 +43,9 @@
       <tr>
         <td>{{pessoa.nome +" " + pessoa.sobrenome}}</td>
         <td>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</td>
-        <td>{{pessoa.cpf}}</td>
+        <td>{{pessoa.cpf | cpf}}</td>
         <td>{{pessoa.email}}</td>
-        <td>{{pessoa.endereco?.cidade + " - " + pessoa.endereco?.estado}}</td>
+        <td>{{pessoa.endereco?.cidade + " / " + pessoa.endereco?.estado}}</td>
         <td>
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                   (click)="editProduct(pessoa)"></button>
