@@ -1,16 +1,19 @@
-<p-toast></p-toast>
+<p-toast key="erro"></p-toast>
+<p-toast key="salvar"></p-toast>
+<p-toast key="editar" *ngIf="modoEdicao"></p-toast>
+
 <div class="card main">
   <div class="grid p-fluid titulo-form">
     <div class="p-fluid col-12 md:col-10">
-      <h3 class="">Cadastro de Pessoa</h3>
+      <h3 class=""> {{ !modoEdicao ? 'Cadastro de Pessoa' : 'Edição de Pessoa' }}</h3>
     </div>
-    <div class="p-fluid col-12 md:col-2">
+    <div class="p-fluid col-12 md:col-2" *ngIf="!modoEdicao">
       <button pButton pRipple type="button" label="Filtrar" class="p-button-raised p-button-text" icon="pi pi-search"
               iconPos="right" (click)="abrirTelaDeDetalhes()"></button>
     </div>
   </div>
 
-  <form [formGroup]="formulario" (ngSubmit)="salvar()">
+  <form [formGroup]="formulario" (ngSubmit)="submit()">
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
         <span class="p-float-label">
@@ -36,7 +39,7 @@
         <span class="p-float-label">
           <p-calendar dateFormat="dd-mm-yy" inputId="dataNascimento" aria-describedby="erro-sobrenome"
                       class="p-inputtext-sm input" [showIcon]="true" formControlName="dataNascimento"></p-calendar>
-          <label for="dataNascimento">Data de Nascimento</label>
+          <label>Data de Nascimento</label>
         </span>
         <small id="erro-data" class="block"
                *ngIf="dataNascimento.invalid && (dataNascimento.dirty || dataNascimento.touched && dataNascimento.errors?.['required'])"
@@ -66,8 +69,7 @@
         <p-fieldset legend="Endereço" [toggleable]="true">
           <div class="formgrid grid" formGroupName="endereco">
             <div class="field col-12 md:col-8">
-              <span class="p-float-label p-input-icon-right">
-                <i class="pi pi-search"></i>
+              <span class="p-float-label">
                 <input id="cep" type="text" pInputText aria-describedby="erro-cep" class="p-inputtext-sm input"
                        formControlName="cep" (blur)="consultarCep($event, formulario)">
                 <label for="cep">CEP</label>

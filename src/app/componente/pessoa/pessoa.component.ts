@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DetalhamentoPessoaComponent} from "./detalhamento-pessoa/detalhamento-pessoa.component";
 import {CepService} from "../../commons/service/cep.service";
@@ -13,6 +13,12 @@ import {PessoaService} from "./service/pessoa.service";
   styleUrls: ['./pessoa.component.css']
 })
 export class PessoaComponent implements OnInit {
+
+  @Input()
+  pessoa!: PessoaRequestDTO;
+
+  @Input()
+  modoEdicao: boolean = false;
 
   ref?: DynamicDialogRef;
   formulario!: FormGroup;
@@ -30,7 +36,11 @@ export class PessoaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.criarFormulario(new PessoaRequestDTO())
+    if (!this.modoEdicao) {
+      this.criarFormulario(new PessoaRequestDTO())
+    } else {
+      this.criarFormulario(this.pessoa)
+    }
   }
 
   abrirTelaDeDetalhes() {
@@ -69,11 +79,7 @@ export class PessoaComponent implements OnInit {
         this.preencherCamposEndereco(dados, form);
         this.verficarCamposEnderecoAntesDeHabilitarEdicao(dados);
       } else {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Cep não encontrado, por favor insira seus dados.',
-          detail: dados.cep
-        });
+        this.adicionarMensagem('erro', 'info', 'Cep não encontrado, por favor insira seus dados.');
         this.habilitarEdicaoCamposEndereco();
       }
 
@@ -102,7 +108,6 @@ export class PessoaComponent implements OnInit {
     this.numeroNaoEncontrado = false;
   }
 
-
   preencherCamposEndereco(dados: any, form: any) {
     this.formulario?.patchValue({
       endereco: {
@@ -115,23 +120,39 @@ export class PessoaComponent implements OnInit {
     });
   }
 
-  salvar() {
-    if (this.formulario.valid) {
-      const pessoa: PessoaRequestDTO = this.formulario.getRawValue();
+  private salvarPessoa(pessoa: PessoaRequestDTO) {
+    this.pessoaService.salvar(pessoa).subscribe((response) => {
+      this.adicionarMensagem('salvar', 'success', 'Registro salvo com sucesso!');
+      this.limparFormulario();
+    }, error => {
+      let erro = JSON.stringify(error.error.errors[0]);
+      this.adicionarMensagem('erro','error', erro);
+    });
+  }
 
-      this.pessoaService.salvar(pessoa).subscribe((response) => {
-        this.adicionarMensagem('success', 'Registro salvo com sucesso!');
-        this.limparFormulario();
+  private editarPessoa(pessoa: PessoaRequestDTO) {
+    if (pessoa.id != null) {
+      this.pessoaService.editar(pessoa.id, pessoa).subscribe((response) => {
+        this.adicionarMensagem('editar', 'success', 'Registro editado com sucesso!');
       }, error => {
         let erro = JSON.stringify(error.error.errors[0]);
-        this.adicionarMensagem('error', erro);
+        this.adicionarMensagem('erro', 'error', erro);
       });
+    }
+  }
 
+  submit() {
+    if (this.formulario.valid) {
+      const pessoa: PessoaRequestDTO = this.formulario.getRawValue();
+      if (!this.modoEdicao) {
+        this.salvarPessoa(pessoa);
+      }else {
+        this.editarPessoa(pessoa);
+      }
     } else {
       this.verficaValidacoesForm(this.formulario);
-      this.adicionarMensagem('error', 'É necessário preencher todos os campos obrigatórios!');
+      this.adicionarMensagem('erro', 'error', 'É necessário preencher todos os campos obrigatórios!');
     }
-
   }
 
   verficaValidacoesForm(formGroup: FormGroup) {
@@ -144,8 +165,9 @@ export class PessoaComponent implements OnInit {
     });
   }
 
-  adicionarMensagem(tipo: string, mensagem: string) {
+  adicionarMensagem(key: string, tipo: string, mensagem: string) {
     this.messageService.add({
+      key: key,
       severity: tipo,
       summary: mensagem
     });

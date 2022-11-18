@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {PessoaService} from "../service/pessoa.service";
-import {PessoaResponseDTO} from "../../../commons/dto/pessoa-response-dto";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PessoaRequestDTO} from "../../../commons/dto/pessoa-request-dto";
+import {Table} from "primeng/table";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {PessoaResponseDTO} from "../../../commons/dto/pessoa-response-dto";
 
 @Component({
   selector: 'app-detalhamento-pessoa',
@@ -11,26 +12,22 @@ import {PessoaRequestDTO} from "../../../commons/dto/pessoa-request-dto";
   styleUrls: ['./detalhamento-pessoa.component.css']
 })
 export class DetalhamentoPessoaComponent implements AfterViewInit, OnInit {
-  productDialog: any;
-  product: any;
-  submitted: any;
-  products: any;
-  selectedProducts: any;
-  Delete: any;
 
-
+  @ViewChild('dt') dt: Table | undefined;
 
   ref!: DynamicDialogRef;
 
-  pessoas: any= [];
+  pessoas: PessoaResponseDTO[] = [];
 
-  formulario!: FormGroup;
+  abrirFormEditar: boolean = false;
+
+  pessoaParaEditar!: PessoaRequestDTO;
 
   constructor(private pessoaService: PessoaService,
               private dialogService: DialogService,
-              private formBuilder: FormBuilder,
-              ) {
-
+              private messageService: MessageService,
+              private confirmationService: ConfirmationService,
+  ) {
   }
 
   ngOnInit(): void {
@@ -39,10 +36,6 @@ export class DetalhamentoPessoaComponent implements AfterViewInit, OnInit {
   listarPessoas() {
     this.pessoaService.listarTodos().subscribe((response) => {
       this.pessoas = response;
-      // this.pessoas.forEach(pessoa => {
-      //   this.criarFormulario(pessoa);
-      // })
-
     });
   }
 
@@ -52,43 +45,39 @@ export class DetalhamentoPessoaComponent implements AfterViewInit, OnInit {
     }, 1);
   }
 
-  criarFormulario(pessoa: PessoaResponseDTO) {
-    this.formulario = this.formBuilder.group({
-      nome: [pessoa.nome],
-      sobrenome: [pessoa.sobrenome],
-      dataNascimento: [pessoa.dataNascimento],
-      cpf: [pessoa.cpf],
-      email: [pessoa.email],
+  applyFilterGlobal(event: any, stringVal: any) {
+    this.dt!.filterGlobal((event.target as HTMLInputElement).value, stringVal);
+  }
 
-      endereco: this.formBuilder.group({
-        cidade: [pessoa.endereco?.cidade, Validators.required],
-        estado: [pessoa.endereco?.estado, Validators.required],
-      })
+  fecharFormEdicaoPessoa() {
+    this.abrirFormEditar = false;
+    this.listarPessoas();
+  }
+
+  adicionarMensagem(tipo: string, mensagem: string) {
+    this.messageService.add({
+      severity: tipo,
+      summary: mensagem
     });
   }
 
-  hideDialog() {
-
+  deletarPessoa(pessoa: any) {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja excluir ' + pessoa.nome + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.pessoaService.deletar(pessoa.id).subscribe(response => {
+          this.adicionarMensagem('success', 'Registro deletado com sucesso')
+          this.listarPessoas();
+        });
+      }
+    });
   }
 
-  saveProduct() {
-
+  editarPessoa(pessoa: any) {
+    this.pessoaParaEditar = {...pessoa}
+    this.abrirFormEditar = true;
   }
 
-  deleteProduct(product: any) {
-
-  }
-
-  editProduct(pessoa: any) {
-    console.log(pessoa);
-
-  }
-
-  deleteSelectedProducts() {
-
-  }
-
-  openNew() {
-
-  }
 }
