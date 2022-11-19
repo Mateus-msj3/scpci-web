@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {label: 'Pessoas', icon: 'pi pi-users', routerLink: '/pessoas'},
-      {label: 'Cursos', icon: 'pi pi-book'},
+      {label: 'Cursos', icon: 'pi pi-book', routerLink: '/cursos'},
       {label: 'Inscrições', icon: 'pi pi-file-edit'},
     ];
     this.activeItem = this.items[0];

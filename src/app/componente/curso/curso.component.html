@@ -1,0 +1,90 @@
+<p-toast key="salvar"></p-toast>
+<p-toast key="erro"></p-toast>
+
+<div class="card main">
+  <div class="grid p-fluid titulo-form">
+    <div class="p-fluid col-12 md:col-10">
+      <h3 class=""> Cadastro de Cursos</h3>
+    </div>
+  </div>
+
+  <form [formGroup]="formulario" (ngSubmit)="submit()">
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <p-fieldset legend="Curso" [toggleable]="true">
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-8">
+              <span class="p-float-label">
+                <input id="nome" type="text" aria-describedby="erro-nome" pInputText class="w-full p-inputtext-sm"
+                       formControlName="nome">
+                <label for="nome">Nome</label>
+                <small id="erro-nome" class="block"
+                       *ngIf="nome.invalid && (nome.dirty || nome.touched && nome.errors?.['required'])"
+                       class="msg-erro">*campo obrigatório.</small>
+              </span>
+            </div>
+            <div class="field col-12 md:col-8">
+              <span class="p-float-label">
+                 <p-inputNumber id="numeroVagas" inputId="minmax" inputId="minmax" mode="decimal" [min]="0" [max]="100"
+                                formControlName="numeroVagas" class="p-inputtext-sm" [showButtons]="true">
+                 </p-inputNumber>
+                <label for="numeroVagas">Nº de Vagas</label>
+              </span>
+              <small id="erro-numeroVagas" class="block"
+                     *ngIf="numeroVagas.invalid && (numeroVagas.dirty || numeroVagas.touched && numeroVagas.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
+            </div>
+          </div>
+          <div class="card">
+            <button pButton pRipple type="submit" label="Salvar" icon="pi pi-save" iconPos="right" class="button"></button>
+            <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar" icon="pi pi-refresh"
+                    iconPos="right" (click)="limparFormulario()"></button>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </form>
+
+  <p-table #dt [value]="cursos" [rows]="5"
+           [paginator]="true"
+           [globalFilterFields]="['nome','situacaoInscricao']"
+           [tableStyle]="{'min-width': '75rem'}"
+           [responsive]="true"
+           [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h4 class="m-0">Lista de Cursos</h4>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" class="p-inputtext-sm" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search..."/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome" style="min-width:15rem">Nome
+          <p-sortIcon field="nome"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nascimento">Nº de Vagas
+          <p-sortIcon field="nascimento"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nascimento" style="min-width:10rem">Situação
+          <p-sortIcon field="category"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-curso>
+      <tr>
+        <td>{{curso.nome}}</td>
+        <td>{{curso.numeroVagas}}</td>
+        <td>{{curso.situacaoInscricao}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Total de Pessoas cadastradas: {{cursos ? cursos.length : 0 }}
+      </div>
+    </ng-template>
+  </p-table>
+
+</div>
