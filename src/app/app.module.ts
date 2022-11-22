@@ -10,6 +10,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoadingInterceptor} from "./commons/interceptor/loading.interceptor";
 import {TranslateModule, TranslateService, TranslateStore} from "@ngx-translate/core";
 import {CursoModule} from "./componente/curso/curso-module/curso.module";
+import {InscricaoModule} from "./componente/inscricao/inscricao-module/inscricao.module";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {CursoModule} from "./componente/curso/curso-module/curso.module";
     PessoaModule,
     CursoModule,
     HttpClientModule,
+    InscricaoModule,
     TranslateModule.forRoot(),
   ],
   providers: [

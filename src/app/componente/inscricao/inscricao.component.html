@@ -1,0 +1,140 @@
+<p-toast key="salvar"></p-toast>
+<p-toast key="erro"></p-toast>
+
+<div class="card main ">
+  <div class="grid p-fluid titulo-form">
+    <div class="p-fluid col-12 md:col-10">
+      <h3 class=""> Cadastro de Inscrições</h3>
+    </div>
+  </div>
+  <form [formGroup]="formulario" (ngSubmit)="submit()">
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <p-fieldset legend="Inscrição" [toggleable]="true">
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-6">
+
+              <p-dropdown [options]="cursos" optionLabel="name"
+                          [filter]="true" filterBy="nome"
+                          optionValue="idCurso"
+                          [showClear]="true" placeholder="Selecione o curso"
+                          (onChange)="listarInscritorPorCurso($event.value)"
+                          formControlName="idCurso" class="p-inputtext-sm">
+                <ng-template pTemplate="selectedItem">
+                  <div class="country-item country-item-value" *ngIf="cursoSelecionado">
+                    <div>{{cursoSelecionado.nome}}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-curso pTemplate="item">
+                  <div class="country-item">
+                    <div>{{curso.nome}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-8">
+              <p-dropdown [options]="pessoas" optionLabel="nome"
+                          [filter]="true" filterBy="nome"
+                          optionValue="cpf"
+                          [showClear]="true"
+                          placeholder="Selecione a pessoa"
+                          formControlName="cpf"
+                          class="p-inputtext-sm">
+                <ng-template pTemplate="selectedItem">
+                  <div class="country-item country-item-value" *ngIf="pessoaSelecionada">
+                    <div>{{pessoaSelecionada.nome}}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-pessoa pTemplate="item">
+                  <div class="country-item">
+                    <div>{{pessoa.nome}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-6">
+              <span class="p-float-label">
+                 <p-inputNumber id="nota" inputId="minmax" inputId="minmax" mode="decimal" [min]="0" [max]="10"
+                                formControlName="nota" class="p-inputtext-sm" [showButtons]="true">
+                 </p-inputNumber>
+                <label for="nota">Nota</label>
+              </span>
+              <small id="erro-nota" class="block"
+                     *ngIf="nota.invalid && (nota.dirty || nota.touched && nota.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
+            </div>
+
+            <div class="formgrid grid">
+              <p-fieldset legend="Lista de Inscritos" [toggleable]="false">
+                <p-table [value]="inscritosNoCurso" [tableStyle]="{'min-width': '30rem'}">
+                  <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+                      Inscritos no Curso
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Nome</th>
+                      <th>Nota</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-inscrito>
+                    <tr>
+                      <td>{{inscrito.nomeInscrito +" " + inscrito.sobrenome}}</td>
+                      <td>{{inscrito.nota}}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-fieldset>
+            </div>
+
+          </div>
+          <div class="card">
+            <button pButton pRipple type="submit" label="Inscrever" icon="pi pi-save" iconPos="right"
+                    class="button"></button>
+            <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar"
+                    icon="pi pi-refresh"
+                    iconPos="right" (click)="limparFormulario()"></button>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </form>
+
+  <div class="card">
+    <button pButton pRipple type="submit" label="Finalizar Inscrições" icon="pi pi-power-off"
+            iconPos="right"
+            class="botao-finalizar p-button-info">
+    </button>
+  </div>
+
+  <p-fieldset legend="Selecionados" [toggleable]="true">
+    <p-table [value]="inscritosSelecionados" [tableStyle]="{'min-width': '30rem'}">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          Lista de Selecionados
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th >Posição</th>
+          <th style="min-width:15rem">Nome</th>
+          <th>Nota</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-inscrito_selecionado>
+        <tr>
+          <td>{{inscrito_selecionado.nome}}</td>
+          <td>{{inscrito_selecionado.nota}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          Total de: {{inscritosSelecionados ? inscritosSelecionados.length : 0 }} inscritos selecionados para o curso.
+        </div>
+      </ng-template>
+    </p-table>
+  </p-fieldset>
+
+</div>

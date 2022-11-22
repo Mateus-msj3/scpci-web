@@ -1,0 +1,133 @@
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PessoaService} from "../pessoa/service/pessoa.service";
+import {CursoService} from "../curso/service/curso.service";
+import {CursoResponseDTO} from "../../commons/dto/curso-response-dto";
+import {PessoaResponseDTO} from "../../commons/dto/pessoa-response-dto";
+import {InscricaoRequestDTO} from "../../commons/dto/inscricao-request-dto";
+import {InscricaoResponseDTO} from "../../commons/dto/inscricao-response-dto";
+import {SelectItem} from "primeng/api";
+import {InscricaoService} from "./service/inscricao.service";
+
+@Component({
+  selector: 'app-inscricao',
+  templateUrl: './inscricao.component.html',
+  styleUrls: ['./inscricao.component.css'],
+})
+export class InscricaoComponent implements OnInit {
+
+  formulario!: FormGroup;
+
+  items!: SelectItem[];
+
+  cursos: CursoResponseDTO[] = [];
+
+  pessoas: PessoaResponseDTO[] = [];
+
+  inscritosNoCurso: InscricaoResponseDTO[] = [];
+
+  inscritosSelecionados: InscricaoResponseDTO[] = [];
+
+  cursoSelecionado!: CursoResponseDTO;
+
+  pessoaSelecionada?: PessoaResponseDTO;
+
+  constructor(private formBuilder: FormBuilder,
+              private inscricaoService: InscricaoService,
+              private pessoaService: PessoaService,
+              private cursoService: CursoService,) { }
+
+  ngOnInit(): void {
+    this.criarFormulario(new InscricaoRequestDTO());
+    this.listarCursos();
+    this.listarPessoas();
+  }
+
+  criarFormulario(inscricao: InscricaoRequestDTO) {
+    this.formulario = this.formBuilder.group({
+      idCurso: [inscricao.idCurso, Validators.required],
+      cpf: [inscricao.cpf, Validators.required],
+      nota: [inscricao.nota, Validators.required],
+    });
+  }
+
+  listarCursos() {
+    this.cursoService.listarTodos().subscribe(response => {
+      response.forEach(curso => {
+        if (curso.situacaoInscricao === "FINALIZADO") {
+          curso.nome = curso.nome + " - (IF)";
+        }
+        this.cursos.push(curso);
+        this.cursos = this.cursos.sort((a, b) => {
+          if (a.nome < b.nome) return -1;
+          if (a.nome > b.nome) return 1;
+          return 0;
+        });
+
+      });
+    });
+  }
+
+  listarPessoas() {
+    this.pessoaService.listarTodos().subscribe(response => {
+      this.pessoas = response;
+    });
+  }
+
+  listarInscritorPorCurso(idCurso: any) {
+    this.inscricaoService.buscarInscritosCurso(idCurso).subscribe(response => {
+      this.inscritosNoCurso = response;
+    });
+    this.buscarSituacaoCurso(idCurso);
+
+  }
+
+  buscarSituacaoCurso(idCurso: number) {
+    this.cursoService.listarPorId(idCurso).subscribe(response => {
+      if (response.situacaoInscricao === "FINALIZADO") {
+        this.cpf?.disable();
+        this.nota?.disable();
+        this.listarInscritosSelecionadosPorCurso(response.idCurso);
+      } else {
+        this.cpf?.enable();
+        this.nota?.enable();
+      }
+    })
+
+  }
+
+  listarInscritosSelecionadosPorCurso(idCurso: number) {
+    this.inscricaoService.buscarInscritosSelecionados(idCurso).subscribe(response => {
+      this.inscritosSelecionados = response;
+    });
+  }
+
+  inscreverAlunoNoCurso(inscricao: InscricaoRequestDTO) {
+    this.inscricaoService.salvar(inscricao).subscribe(response => {
+      console.log(response);
+    })
+  }
+
+  submit() {
+    if (this.formulario.valid) {
+      const inscricao: InscricaoRequestDTO = this.formulario.getRawValue();
+      this.inscreverAlunoNoCurso(inscricao);
+    }
+  }
+
+  limparFormulario() {
+    this.formulario.reset();
+  }
+
+  get idCurso() {
+    return this.formulario?.get('idCurso');
+  }
+
+  get cpf() {
+    return this.formulario?.get('cpf');
+  }
+
+  get nota() {
+    return this.formulario?.get('nota');
+  }
+}
