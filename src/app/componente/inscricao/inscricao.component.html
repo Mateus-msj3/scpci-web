@@ -1,6 +1,4 @@
-<p-toast key="salvar"></p-toast>
-<p-toast key="erro"></p-toast>
-
+<p-toast></p-toast>
 <div class="card main ">
   <div class="grid p-fluid titulo-form">
     <div class="p-fluid col-12 md:col-10">
@@ -103,9 +101,12 @@
   </form>
 
   <div class="card">
-    <button pButton pRipple type="submit" label="Finalizar Inscrições" icon="pi pi-power-off"
+    <button pButton pRipple type="button" label="Finalizar Inscrições"
+            icon="pi pi-power-off"
             iconPos="right"
-            class="botao-finalizar p-button-info">
+            class="botao-finalizar p-button-info"
+            [disabled]="desabilitarBotaoFinalizar"
+            (click)="finalizarInscricao()">
     </button>
   </div>
 
@@ -125,7 +126,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-inscrito_selecionado>
         <tr>
-          <td>{{inscrito_selecionado.nome}}</td>
+          <td>{{ posicaoAlunoInscricao }}</td>
+          <td>{{inscrito_selecionado.nomeInscrito + " " + inscrito_selecionado.sobrenome}}</td>
           <td>{{inscrito_selecionado.nota}}</td>
         </tr>
       </ng-template>

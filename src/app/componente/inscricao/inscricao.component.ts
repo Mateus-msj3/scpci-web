@@ -6,7 +6,7 @@ import {CursoResponseDTO} from "../../commons/dto/curso-response-dto";
 import {PessoaResponseDTO} from "../../commons/dto/pessoa-response-dto";
 import {InscricaoRequestDTO} from "../../commons/dto/inscricao-request-dto";
 import {InscricaoResponseDTO} from "../../commons/dto/inscricao-response-dto";
-import {SelectItem} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
 import {InscricaoService} from "./service/inscricao.service";
 
 @Component({
@@ -32,10 +32,15 @@ export class InscricaoComponent implements OnInit {
 
   pessoaSelecionada?: PessoaResponseDTO;
 
+  desabilitarBotaoFinalizar: boolean = false;
+
+  posicaoAlunoInscricao: number = 0;
+
   constructor(private formBuilder: FormBuilder,
               private inscricaoService: InscricaoService,
               private pessoaService: PessoaService,
-              private cursoService: CursoService,) { }
+              private cursoService: CursoService,
+              private messageService: MessageService,) { }
 
   ngOnInit(): void {
     this.criarFormulario(new InscricaoRequestDTO());
@@ -87,25 +92,47 @@ export class InscricaoComponent implements OnInit {
       if (response.situacaoInscricao === "FINALIZADO") {
         this.cpf?.disable();
         this.nota?.disable();
+        this.desabilitarBotaoFinalizar = true;
         this.listarInscritosSelecionadosPorCurso(response.idCurso);
       } else {
         this.cpf?.enable();
         this.nota?.enable();
+        this.desabilitarBotaoFinalizar = false;
+
       }
-    })
+    });
 
   }
 
   listarInscritosSelecionadosPorCurso(idCurso: number) {
     this.inscricaoService.buscarInscritosSelecionados(idCurso).subscribe(response => {
       this.inscritosSelecionados = response;
+      this.inscritosSelecionados = this.inscritosSelecionados.sort((a, b) => {
+        if (a.nota < b.nota){
+          this.posicaoAlunoInscricao++
+          return -1;
+        }
+        if (a.nota > b.nota) {
+          this.posicaoAlunoInscricao++
+          return 1;
+        }
+        return 0;
+      });
     });
   }
 
   inscreverAlunoNoCurso(inscricao: InscricaoRequestDTO) {
     this.inscricaoService.salvar(inscricao).subscribe(response => {
-      console.log(response);
+      this.adicionarMensagem('success', 'Inscrição realizada com sucesso!')
+      this.limparFormulario();
     })
+  }
+
+  finalizarInscricao() {
+    this.inscricaoService.finalizar(this.idCurso?.value).subscribe(response => {
+      console.log(response)
+      this.adicionarMensagem('info', 'A inscrição está sendo finalizada')
+    });
   }
 
   submit() {
@@ -117,6 +144,13 @@ export class InscricaoComponent implements OnInit {
 
   limparFormulario() {
     this.formulario.reset();
+  }
+
+  adicionarMensagem(tipo: string, mensagem: string) {
+    this.messageService.add({
+      severity: tipo,
+      summary: mensagem
+    });
   }
 
   get idCurso() {
