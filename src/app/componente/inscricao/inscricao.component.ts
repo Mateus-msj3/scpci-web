@@ -28,10 +28,6 @@ export class InscricaoComponent implements OnInit {
 
   inscritosSelecionados: InscricaoResponseDTO[] = [];
 
-  cursoSelecionado!: CursoResponseDTO;
-
-  pessoaSelecionada?: PessoaResponseDTO;
-
   desabilitarBotaoFinalizar: boolean = false;
 
   posicaoAlunoInscricao: number = 0;
@@ -43,9 +39,9 @@ export class InscricaoComponent implements OnInit {
               private messageService: MessageService,) { }
 
   ngOnInit(): void {
-    this.criarFormulario(new InscricaoRequestDTO());
     this.listarCursos();
     this.listarPessoas();
+    this.criarFormulario(new InscricaoRequestDTO());
   }
 
   criarFormulario(inscricao: InscricaoRequestDTO) {
@@ -79,7 +75,7 @@ export class InscricaoComponent implements OnInit {
     });
   }
 
-  listarInscritorPorCurso(idCurso: any) {
+  listarInscritosPorCurso(idCurso: any) {
     this.inscricaoService.buscarInscritosCurso(idCurso).subscribe(response => {
       this.inscritosNoCurso = response;
     });
@@ -98,7 +94,7 @@ export class InscricaoComponent implements OnInit {
         this.cpf?.enable();
         this.nota?.enable();
         this.desabilitarBotaoFinalizar = false;
-
+        this.inscritosSelecionados = [];
       }
     });
 
@@ -108,12 +104,10 @@ export class InscricaoComponent implements OnInit {
     this.inscricaoService.buscarInscritosSelecionados(idCurso).subscribe(response => {
       this.inscritosSelecionados = response;
       this.inscritosSelecionados = this.inscritosSelecionados.sort((a, b) => {
-        if (a.nota < b.nota){
-          this.posicaoAlunoInscricao++
+        if (a.nota > b.nota){
           return -1;
         }
-        if (a.nota > b.nota) {
-          this.posicaoAlunoInscricao++
+        if (a.nota < b.nota) {
           return 1;
         }
         return 0;
@@ -124,14 +118,16 @@ export class InscricaoComponent implements OnInit {
   inscreverAlunoNoCurso(inscricao: InscricaoRequestDTO) {
     this.inscricaoService.salvar(inscricao).subscribe(response => {
       this.adicionarMensagem('success', 'Inscrição realizada com sucesso!')
-      this.limparFormulario();
+      this.listarInscritosPorCurso(inscricao.idCurso);
+      this.cpf?.reset();
+      this.nota?.reset();
     })
   }
 
   finalizarInscricao() {
     this.inscricaoService.finalizar(this.idCurso?.value).subscribe(response => {
-      console.log(response)
-      this.adicionarMensagem('info', 'A inscrição está sendo finalizada')
+      this.adicionarMensagem('info', 'A inscrição está sendo finalizada');
+      this.listarInscritosSelecionadosPorCurso(this.idCurso?.value);
     });
   }
 

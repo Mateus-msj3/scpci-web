@@ -12,19 +12,19 @@
           <div class="formgrid grid">
             <div class="field col-12 md:col-6">
 
-              <p-dropdown [options]="cursos" optionLabel="name"
+              <p-dropdown [options]="cursos" optionLabel="nome"
                           [filter]="true" filterBy="nome"
                           optionValue="idCurso"
                           [showClear]="true" placeholder="Selecione o curso"
-                          (onChange)="listarInscritorPorCurso($event.value)"
+                          (onChange)="listarInscritosPorCurso($event.value)"
                           formControlName="idCurso" class="p-inputtext-sm">
-                <ng-template pTemplate="selectedItem">
-                  <div class="country-item country-item-value" *ngIf="cursoSelecionado">
-                    <div>{{cursoSelecionado.nome}}</div>
+                <ng-template let-curso pTemplate="selectedItem">
+                  <div>
+                    <div>{{curso.nome}}</div>
                   </div>
                 </ng-template>
                 <ng-template let-curso pTemplate="item">
-                  <div class="country-item">
+                  <div>
                     <div>{{curso.nome}}</div>
                   </div>
                 </ng-template>
@@ -39,14 +39,14 @@
                           placeholder="Selecione a pessoa"
                           formControlName="cpf"
                           class="p-inputtext-sm">
-                <ng-template pTemplate="selectedItem">
-                  <div class="country-item country-item-value" *ngIf="pessoaSelecionada">
-                    <div>{{pessoaSelecionada.nome}}</div>
+                <ng-template let-pessoa pTemplate="selectedItem">
+                  <div>
+                    <div>{{pessoa.nome + " " + pessoa.sobrenome}}</div>
                   </div>
                 </ng-template>
                 <ng-template let-pessoa pTemplate="item">
-                  <div class="country-item">
-                    <div>{{pessoa.nome}}</div>
+                  <div>
+                    <div>{{pessoa.nome + " " + pessoa.sobrenome}}</div>
                   </div>
                 </ng-template>
               </p-dropdown>
@@ -111,7 +111,7 @@
   </div>
 
   <p-fieldset legend="Selecionados" [toggleable]="true">
-    <p-table [value]="inscritosSelecionados" [tableStyle]="{'min-width': '30rem'}">
+    <p-table #table [value]="inscritosSelecionados" [tableStyle]="{'min-width': '30rem'}">
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
           Lista de Selecionados
@@ -126,9 +126,9 @@
       </ng-template>
       <ng-template pTemplate="body" let-inscrito_selecionado>
         <tr>
-          <td>{{ posicaoAlunoInscricao }}</td>
-          <td>{{inscrito_selecionado.nomeInscrito + " " + inscrito_selecionado.sobrenome}}</td>
-          <td>{{inscrito_selecionado.nota}}</td>
+          <td>{{ table }}</td>
+          <td>{{ inscrito_selecionado.nomeInscrito + " " + inscrito_selecionado.sobrenome }}</td>
+          <td>{{ inscrito_selecionado.nota }}</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary">
