@@ -30,13 +30,12 @@ export class InscricaoComponent implements OnInit {
 
   desabilitarBotaoFinalizar: boolean = false;
 
-  posicaoAlunoInscricao: number = 0;
-
   constructor(private formBuilder: FormBuilder,
               private inscricaoService: InscricaoService,
               private pessoaService: PessoaService,
               private cursoService: CursoService,
-              private messageService: MessageService,) { }
+              private messageService: MessageService,) {
+  }
 
   ngOnInit(): void {
     this.listarCursos();
@@ -64,7 +63,6 @@ export class InscricaoComponent implements OnInit {
           if (a.nome > b.nome) return 1;
           return 0;
         });
-
       });
     });
   }
@@ -80,7 +78,6 @@ export class InscricaoComponent implements OnInit {
       this.inscritosNoCurso = response;
     });
     this.buscarSituacaoCurso(idCurso);
-
   }
 
   buscarSituacaoCurso(idCurso: number) {
@@ -104,7 +101,7 @@ export class InscricaoComponent implements OnInit {
     this.inscricaoService.buscarInscritosSelecionados(idCurso).subscribe(response => {
       this.inscritosSelecionados = response;
       this.inscritosSelecionados = this.inscritosSelecionados.sort((a, b) => {
-        if (a.nota > b.nota){
+        if (a.nota > b.nota) {
           return -1;
         }
         if (a.nota < b.nota) {
@@ -121,25 +118,42 @@ export class InscricaoComponent implements OnInit {
       this.listarInscritosPorCurso(inscricao.idCurso);
       this.cpf?.reset();
       this.nota?.reset();
+    }, error => {
+      let mensagemErro = error.error.errors[0];
+      this.adicionarMensagem('error', mensagemErro);
     })
   }
 
   finalizarInscricao() {
-    this.inscricaoService.finalizar(this.idCurso?.value).subscribe(response => {
-      this.adicionarMensagem('info', 'A inscrição está sendo finalizada');
-      this.listarInscritosSelecionadosPorCurso(this.idCurso?.value);
-    });
+    if (this.idCurso?.valid) {
+      this.inscricaoService.finalizar(this.idCurso?.value).subscribe(response => {
+        this.adicionarMensagem('info', 'A inscrição está sendo finalizada');
+        this.listarInscritosSelecionadosPorCurso(this.idCurso?.value);
+      });
+    } else {
+      this.adicionarMensagem('error', 'Selecione o curso.');
+    }
   }
 
   submit() {
     if (this.formulario.valid) {
       const inscricao: InscricaoRequestDTO = this.formulario.getRawValue();
       this.inscreverAlunoNoCurso(inscricao);
+    } else {
+      this.verficaValidacoesForm(this.formulario);
+      this.adicionarMensagem('error', 'É necessário preencher todos os campos obrigatórios!');
     }
   }
 
   limparFormulario() {
     this.formulario.reset();
+  }
+
+  verficaValidacoesForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(campo => {
+      const controle = formGroup.get(campo);
+      controle?.markAsDirty()
+    });
   }
 
   adicionarMensagem(tipo: string, mensagem: string) {

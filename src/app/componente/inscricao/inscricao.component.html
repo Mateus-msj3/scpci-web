@@ -10,8 +10,7 @@
       <div class="field col-12">
         <p-fieldset legend="Inscrição" [toggleable]="true">
           <div class="formgrid grid">
-            <div class="field col-12 md:col-6">
-
+            <div class="field col-12">
               <p-dropdown [options]="cursos" optionLabel="nome"
                           [filter]="true" filterBy="nome"
                           optionValue="idCurso"
@@ -29,8 +28,10 @@
                   </div>
                 </ng-template>
               </p-dropdown>
+              <small id="erro-curso" class="block"
+                     *ngIf="idCurso.invalid && (idCurso.dirty || idCurso.touched && idCurso.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
             </div>
-
             <div class="field col-12 md:col-8">
               <p-dropdown [options]="pessoas" optionLabel="nome"
                           [filter]="true" filterBy="nome"
@@ -50,6 +51,9 @@
                   </div>
                 </ng-template>
               </p-dropdown>
+              <small id="erro-pessoa" class="block"
+                     *ngIf="cpf.invalid && (cpf.dirty || cpf.touched && cpf.errors?.['required'])"
+                     class="msg-erro">*campo obrigatório.</small>
             </div>
             <div class="field col-12 md:col-6">
               <span class="p-float-label">
@@ -63,28 +67,30 @@
                      class="msg-erro">*campo obrigatório.</small>
             </div>
 
-            <div class="formgrid grid">
-              <p-fieldset legend="Lista de Inscritos" [toggleable]="false">
-                <p-table [value]="inscritosNoCurso" [tableStyle]="{'min-width': '30rem'}">
-                  <ng-template pTemplate="caption">
-                    <div class="flex align-items-center justify-content-between">
-                      Inscritos no Curso
-                    </div>
-                  </ng-template>
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th>Nome</th>
-                      <th>Nota</th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-inscrito>
-                    <tr>
-                      <td>{{inscrito.nomeInscrito +" " + inscrito.sobrenome}}</td>
-                      <td>{{inscrito.nota}}</td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </p-fieldset>
+            <div class="field col-12 md:col-8">
+              <div class="formgrid grid">
+                <p-fieldset legend="Inscritos" [toggleable]="false">
+                  <p-table [value]="inscritosNoCurso" [tableStyle]="{'min-width': '30rem'}">
+                    <ng-template pTemplate="caption">
+                      <div class="flex align-items-center justify-content-between">
+                        Inscritos no Curso
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Nome</th>
+                        <th>Nota</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-inscrito>
+                      <tr>
+                        <td>{{inscrito.nomeInscrito + " " + inscrito.sobrenome}}</td>
+                        <td>{{inscrito.nota}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-fieldset>
+              </div>
             </div>
 
           </div>
@@ -111,7 +117,9 @@
   </div>
 
   <p-fieldset legend="Selecionados" [toggleable]="true">
-    <p-table #table [value]="inscritosSelecionados" [tableStyle]="{'min-width': '30rem'}">
+    <p-table [value]="inscritosSelecionados"
+             [tableStyle]="{'min-width': '30rem'}"
+             [rowHover]="true">
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
           Lista de Selecionados
@@ -119,14 +127,14 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th >Posição</th>
+          <th>Posição</th>
           <th style="min-width:15rem">Nome</th>
           <th>Nota</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-inscrito_selecionado>
+      <ng-template pTemplate="body" let-inscrito_selecionado let-rowIndex="rowIndex">
         <tr>
-          <td>{{ table }}</td>
+          <td>{{ rowIndex + 1 }}</td>
           <td>{{ inscrito_selecionado.nomeInscrito + " " + inscrito_selecionado.sobrenome }}</td>
           <td>{{ inscrito_selecionado.nota }}</td>
         </tr>
