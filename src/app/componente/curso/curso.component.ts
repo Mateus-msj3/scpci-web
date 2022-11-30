@@ -19,6 +19,9 @@ export class CursoComponent implements OnInit {
   formulario!: FormGroup;
 
   cursos: CursoResponseDTO[] = []
+  data: any;
+  chartOptions: any;
+
 
   constructor(private formBuilder: FormBuilder,
               private cursoService: CursoService,
@@ -29,6 +32,24 @@ export class CursoComponent implements OnInit {
   ngOnInit(): void {
     this.criarFormulario(new CursoRequestDTO());
     this.listarTodos();
+    this.data = {
+      labels: ['A','B','C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }
+      ]
+    };
   }
 
   applyFilterGlobal(event: any, stringVal: any) {

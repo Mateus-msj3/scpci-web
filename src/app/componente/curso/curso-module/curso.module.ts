@@ -11,6 +11,8 @@ import {ButtonModule} from "primeng/button";
 import {RatingModule} from "primeng/rating";
 import {TableModule} from "primeng/table";
 import {ToolbarModule} from "primeng/toolbar";
+import {ChartModule} from "primeng/chart";
+import {CardModule} from "primeng/card";
 
 const routes: Routes = [
   {path: "cursos", component: CursoComponent},
@@ -33,6 +35,8 @@ const routes: Routes = [
     TableModule,
     FormsModule,
     ToolbarModule,
+    ChartModule,
+    CardModule,
   ],
   exports: [
     CursoComponent,
