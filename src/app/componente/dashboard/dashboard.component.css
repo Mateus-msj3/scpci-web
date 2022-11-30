@@ -1,0 +1,11 @@
+.main {
+  margin-top: 90px;
+}
+
+.content {
+  width: 25rem;
+  margin-bottom: 2em;
+  align-items: center;
+  color: red;
+  text-align: center;
+}
