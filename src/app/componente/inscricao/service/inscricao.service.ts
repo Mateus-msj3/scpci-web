@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {InscricaoRequestDTO} from "../../../commons/dto/inscricao-request-dto";
 import {InscricaoFinalizacaoRequestDTO} from "../../../commons/dto/inscricao-finalizacao-request-dto";
-import {InscricaoMensagemResponseDTO} from "../../../commons/dto/inscricao-mensagem-response-dto";
 import {InscricaoResponseDTO} from "../../../commons/dto/inscricao-response-dto";
 
 @Injectable({
@@ -30,6 +29,10 @@ export class InscricaoService {
 
   finalizar(finalizacao: InscricaoFinalizacaoRequestDTO): Observable<InscricaoFinalizacaoRequestDTO> {
     return this.http.post<InscricaoFinalizacaoRequestDTO>(this.apiURL + '/solicitar-finalizacao', finalizacao);
+  }
+
+  buscarQuantidadePessoasInscritas() {
+    return this.http.get<any>(this.apiURL + `/quantidades-pessoas-inscritas`);
   }
 
 }

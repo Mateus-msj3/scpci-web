@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {PessoaService} from "../pessoa/service/pessoa.service";
+import {InscricaoService} from "../inscricao/service/inscricao.service";
+import {CursoService} from "../curso/service/curso.service";
+import {CursoDashboardDTO} from "../../commons/dto/curso-dashboard-dto";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,43 +13,62 @@ export class DashboardComponent implements OnInit {
 
   configCard: any = {'width': '25rem', 'margin-bottom': '2em', 'align-items': 'center', 'text-align': 'center'};
 
-  dataPessaoas: any;
+  dadosPessoas: any;
+
+  quantidadePessoasCadastradas?: number;
+
+  quantidadePessoasInscritasCurso?: number;
 
   chartOptions: any;
 
   dataCursos: any;
 
+  curso: CursoDashboardDTO = new CursoDashboardDTO();
+
   dataInscricoes: any;
 
-  quantidade_pessoas_cadastradas?: any = 7;
-
-  quantidade_pessoas_Inscritas_curso!: number;
-
-
-  constructor(private pessoaService: PessoaService) { }
+  constructor(private pessoaService: PessoaService,
+              private inscricaoService: InscricaoService,
+              private cursoService: CursoService,) { }
 
   ngOnInit(): void {
-      this.graficoPessoa();
-      this.graficoCursos();
+      this.buscarQuantidadePessoasCadastradas();
+      this.buscarQuantidadePessoasInscritas();
+      this.buscarDadosCursoDashboard();
       this.graficoInscricoes();
   }
 
-  graficoPessoa() {
-
-    this.pessoaService.buscarQuantidadePessoas().subscribe(dados => {
+  buscarQuantidadePessoasCadastradas() {
+    this.pessoaService.buscarQuantidadePessoas().subscribe((dados) => {
       if (dados) {
-        //this.quantidade_pessoas_cadastradas = dados;
-        //console.log(this.quantidade_pessoas_cadastradas)
+        this.quantidadePessoasCadastradas = dados;
       }else {
-        //this.quantidade_pessoas_cadastradas = 0;
+        this.quantidadePessoasCadastradas = 0;
       }
+      this.graficoPessoa();
     });
+  }
 
-    this.dataPessaoas = {
-      labels: ['QUANTIDADE DE PESSOAS CADASTRADAS', 'QUANTIDADE DE PESSOAS INSCRITAS NUM CURSO'],
+  buscarQuantidadePessoasInscritas() {
+    this.inscricaoService.buscarQuantidadePessoasInscritas().subscribe((dados) => {
+      if (dados) {
+        this.quantidadePessoasInscritasCurso = dados;
+      }else {
+        this.quantidadePessoasInscritasCurso = 0;
+      }
+      this.graficoPessoa();
+    });
+  }
+
+  graficoPessoa() {
+    this.dadosPessoas = {
+      labels: [
+        'PESSOAS CADASTRADAS',
+        'PESSOAS INSCRITAS',
+      ],
       datasets: [
         {
-          data: [ this.quantidade_pessoas_cadastradas, this.quantidade_pessoas_Inscritas_curso],
+          data: [ this.quantidadePessoasCadastradas, this.quantidadePessoasInscritasCurso],
           backgroundColor: [
             "#36A2EB",
             "#FFCE56"
@@ -60,26 +82,31 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  graficoCursos() {
+  buscarDadosCursoDashboard() {
+    this.cursoService.buscarInformacoesCursos().subscribe((dados) => {
+      this.curso.quantidadeCursosCadastrados = dados.quantidadeCursosCadastrados;
+      this.curso.quantidadeCursosEmAndamento = dados.quantidadeCursosEmAndamento;
+      this.curso.quantidadeCursosFinalizados = dados.quantidadeCursosFinalizados;
+      this.graficoCurso();
+    });
+  }
+
+  graficoCurso() {
     this.dataCursos = {
-      datasets: [{
-        data: [
-          11,
-          16,
-          7,
-        ],
-        backgroundColor: [
-          "#42A5F5",
-          "#FFA726",
-          "#7E57C2"
-        ],
-        label: 'My dataset'
-      }],
       labels: [
+        "TOTAL",
         "EM ANDAMENTO",
-        "FINALIZADO",
-        "TOTAL DE CURSOS"
-      ]
+        "FINALIZADOS",
+      ],
+      datasets: [{
+        data: [this.curso.quantidadeCursosCadastrados, this.curso.quantidadeCursosEmAndamento, this.curso.quantidadeCursosFinalizados],
+        backgroundColor: [
+          "#42f551",
+          "#26acff",
+          "#f1d132"
+        ],
+        label: 'Cursos'
+      }],
     };
   }
 

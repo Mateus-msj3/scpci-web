@@ -11,4 +11,9 @@ export class CursoService extends CrudService<any, number> {
   constructor(protected override _http: HttpClient) {
     super(_http, `${environment.api.baseUrl}/cursos`);
   }
+
+  buscarInformacoesCursos() {
+    return this._http.get<any>(`${environment.api.baseUrl}/cursos/dashboard`);
+  }
+
 }
