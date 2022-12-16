@@ -3,6 +3,7 @@ import {PessoaService} from "../pessoa/service/pessoa.service";
 import {InscricaoService} from "../inscricao/service/inscricao.service";
 import {CursoService} from "../curso/service/curso.service";
 import {CursoDashboardDTO} from "../../commons/dto/curso-dashboard-dto";
+import {InscricaoDashboardDTO} from "../../commons/dto/inscricao-dashboard-dto";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,11 @@ export class DashboardComponent implements OnInit {
 
   configCard: any = {'width': '25rem', 'margin-bottom': '2em', 'align-items': 'center', 'text-align': 'center'};
 
-  dadosPessoas: any;
+  dadosPessoas!: object;
+
+  dadosInscricoes!: object;
+
+  dadosCursos!: object;
 
   quantidadePessoasCadastradas?: number;
 
@@ -21,11 +26,9 @@ export class DashboardComponent implements OnInit {
 
   chartOptions: any;
 
-  dataCursos: any;
-
   curso: CursoDashboardDTO = new CursoDashboardDTO();
 
-  dataInscricoes: any;
+  inscricaoDashbord: InscricaoDashboardDTO = new InscricaoDashboardDTO();
 
   constructor(private pessoaService: PessoaService,
               private inscricaoService: InscricaoService,
@@ -35,7 +38,7 @@ export class DashboardComponent implements OnInit {
       this.buscarQuantidadePessoasCadastradas();
       this.buscarQuantidadePessoasInscritas();
       this.buscarDadosCursoDashboard();
-      this.graficoInscricoes();
+      this.buscarDadosInscricaoDashboard();
   }
 
   buscarQuantidadePessoasCadastradas() {
@@ -63,8 +66,7 @@ export class DashboardComponent implements OnInit {
   graficoPessoa() {
     this.dadosPessoas = {
       labels: [
-        'PESSOAS CADASTRADAS',
-        'PESSOAS INSCRITAS',
+        'CADASTRADAS', 'INSCRITAS',
       ],
       datasets: [
         {
@@ -91,12 +93,18 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  buscarDadosInscricaoDashboard() {
+    this.inscricaoService.buscarDadosParaDashboard().subscribe(dados => {
+      this.inscricaoDashbord.maiorInscricao = dados.maiorInscricao;
+      this.inscricaoDashbord.menorInscricao = dados.menorInscricao;
+      this.graficoInscricoes();
+    })
+  }
+
   graficoCurso() {
-    this.dataCursos = {
+    this.dadosCursos = {
       labels: [
-        "TOTAL",
-        "EM ANDAMENTO",
-        "FINALIZADOS",
+        "TOTAL", "ANDAMENTO", "FINALIZADOS",
       ],
       datasets: [{
         data: [this.curso.quantidadeCursosCadastrados, this.curso.quantidadeCursosEmAndamento, this.curso.quantidadeCursosFinalizados],
@@ -111,11 +119,11 @@ export class DashboardComponent implements OnInit {
   }
 
   graficoInscricoes() {
-    this.dataInscricoes = {
+    this.dadosInscricoes = {
       labels: ["MAIS INSCRITOS", "MENOS INSCRITOS"],
       datasets: [
         {
-          data: [50, 100],
+          data: [this.inscricaoDashbord.maiorInscricao, this.inscricaoDashbord.menorInscricao],
           backgroundColor: [
             "#42A5F5",
             "#FFA726"

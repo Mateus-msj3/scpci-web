@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {InscricaoRequestDTO} from "../../../commons/dto/inscricao-request-dto";
 import {InscricaoFinalizacaoRequestDTO} from "../../../commons/dto/inscricao-finalizacao-request-dto";
 import {InscricaoResponseDTO} from "../../../commons/dto/inscricao-response-dto";
+import {InscricaoDashboardDTO} from "../../../commons/dto/inscricao-dashboard-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,11 @@ export class InscricaoService {
   }
 
   buscarQuantidadePessoasInscritas() {
-    return this.http.get<any>(this.apiURL + `/quantidades-pessoas-inscritas`);
+    return this.http.get<number>(this.apiURL + `/quantidades-pessoas-inscritas`);
+  }
+
+  buscarDadosParaDashboard() {
+    return this.http.get<InscricaoDashboardDTO>(this.apiURL + `/dashboard`);
   }
 
 }

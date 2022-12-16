@@ -13,7 +13,7 @@
     <p-card header="Cursos" [style]="configCard">
       <ng-template pTemplate="header">
       </ng-template>
-      <p-chart type="polarArea" [data]="dataCursos" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
+      <p-chart type="polarArea" [data]="dadosCursos" [options]="chartOptions" [style]="{'width': '70%'}"></p-chart>
       <ng-template pTemplate="footer">
         <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>
       </ng-template>
@@ -23,7 +23,7 @@
     <p-card header="Inscrições" [style]="configCard">
       <ng-template pTemplate="header">
       </ng-template>
-      <p-chart type="pie" [data]="dataInscricoes" [options]="chartOptions"  [style]="{'width': '40%'}"></p-chart>
+      <p-chart type="pie" [data]="dadosInscricoes" [options]="chartOptions"  [style]="{'width': '40%'}"></p-chart>
       <ng-template pTemplate="footer">
         <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>
       </ng-template>
