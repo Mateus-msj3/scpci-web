@@ -1,0 +1,36 @@
+<div class="card">
+  <p-card styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+    </ng-template>
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <form [formGroup]="formulario" (ngSubmit)="gerarRelatorio()">
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-8">
+              <p-dropdown [options]="cursos"
+                          optionLabel="nome"
+                          [filter]="true" filterBy="nome"
+                          [showClear]="true" placeholder="Selecione o curso"
+                          formControlName="curso"
+                          class="p-inputtext-sm">
+                <ng-template let-curso pTemplate="selectedItem">
+                  <div>
+                    <div>{{curso.nome}}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-curso pTemplate="item">
+                  <div>
+                    <div>{{curso.nome}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Gerar" icon="pi pi-file-pdf" (click)="gerarRelatorio()"></p-button>
+    </ng-template>
+  </p-card>
+</div>

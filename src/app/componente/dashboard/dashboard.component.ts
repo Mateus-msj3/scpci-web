@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
 
   inscricaoDashbord: InscricaoDashboardDTO = new InscricaoDashboardDTO();
 
+  abrirTelaRelatorio!: boolean;
+
   constructor(private pessoaService: PessoaService,
               private inscricaoService: InscricaoService,
               private cursoService: CursoService,) { }
@@ -137,4 +139,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  abrirOpcaoDeRelatorios() {
+    this.abrirTelaRelatorio = true;
+  }
 }

@@ -28,7 +28,7 @@ export class InscricaoComponent implements OnInit {
 
   inscritosSelecionados: InscricaoResponseDTO[] = [];
 
-  desabilitarBotaoFinalizar: boolean = false;
+  desabilitarBotoes: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private inscricaoService: InscricaoService,
@@ -85,12 +85,12 @@ export class InscricaoComponent implements OnInit {
       if (response.situacaoInscricao === "FINALIZADO") {
         this.cpf?.disable();
         this.nota?.disable();
-        this.desabilitarBotaoFinalizar = true;
+        this.desabilitarBotoes = true;
         this.listarInscritosSelecionadosPorCurso(response.idCurso);
       } else {
         this.cpf?.enable();
         this.nota?.enable();
-        this.desabilitarBotaoFinalizar = false;
+        this.desabilitarBotoes = false;
         this.inscritosSelecionados = [];
       }
     });

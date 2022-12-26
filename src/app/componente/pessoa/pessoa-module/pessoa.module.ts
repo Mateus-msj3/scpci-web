@@ -25,6 +25,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgxMaskModule} from "ngx-mask";
 import {CommonsModule} from "../../../commons/module/commons/commons.module";
 import {CpfPipe} from "../../../commons/pipe/cpf.pipe";
+import {ReportComponent} from "../report/report.component";
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
     PessoaComponent,
     DetalhamentoPessoaComponent,
     CpfPipe,
+    ReportComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +65,7 @@ const routes: Routes = [
   exports: [
     PessoaComponent,
     DetalhamentoPessoaComponent,
+    ReportComponent,
   ],
   providers: [
     DialogService,

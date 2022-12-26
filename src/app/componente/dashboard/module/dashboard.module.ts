@@ -8,6 +8,8 @@ import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RatingModule} from "primeng/rating";
 import {ChartModule} from "primeng/chart";
+import {DialogModule} from "primeng/dialog";
+import {PessoaModule} from "../../pessoa/pessoa-module/pessoa.module";
 
 const routes: Routes = [
   {path: "dashboard", component: DashboardComponent},
@@ -18,16 +20,18 @@ const routes: Routes = [
   declarations: [
     DashboardComponent
   ],
-  imports: [
-    CommonModule,
-    CommonsModule,
-    RouterModule.forRoot(routes),
-    CardModule,
-    TableModule,
-    ButtonModule,
-    RatingModule,
-    ChartModule,
-  ],
+    imports: [
+        CommonModule,
+        CommonsModule,
+        RouterModule.forRoot(routes),
+        CardModule,
+        TableModule,
+        ButtonModule,
+        RatingModule,
+        ChartModule,
+        DialogModule,
+        PessoaModule,
+    ],
   exports: [
     DashboardComponent,
   ],

@@ -88,6 +88,11 @@
                         <td>{{inscrito.nota}}</td>
                       </tr>
                     </ng-template>
+                    <ng-template pTemplate="summary">
+                      <div class="flex align-items-center justify-content-between">
+                        Total de : {{inscritosNoCurso ? inscritosNoCurso.length : 0 }} inscritos para o curso.
+                      </div>
+                    </ng-template>
                   </p-table>
                 </p-fieldset>
               </div>
@@ -96,6 +101,7 @@
           </div>
           <div class="card">
             <button pButton pRipple type="submit" label="Inscrever" icon="pi pi-save" iconPos="right"
+                    [disabled]="desabilitarBotoes"
                     class="button"></button>
             <button pButton pRipple type="button" label="Limpar" class="p-button-outlined button-limpar"
                     icon="pi pi-refresh"
@@ -111,7 +117,7 @@
             icon="pi pi-power-off"
             iconPos="right"
             class="botao-finalizar p-button-info"
-            [disabled]="desabilitarBotaoFinalizar"
+            [disabled]="desabilitarBotoes"
             (click)="finalizarInscricao()">
     </button>
   </div>
@@ -141,7 +147,7 @@
       </ng-template>
       <ng-template pTemplate="summary">
         <div class="flex align-items-center justify-content-between">
-          Total de: {{inscritosSelecionados ? inscritosSelecionados.length : 0 }} inscritos selecionados para o curso.
+          Total de : {{inscritosSelecionados ? inscritosSelecionados.length : 0 }} inscritos selecionados para o curso.
         </div>
       </ng-template>
     </p-table>
