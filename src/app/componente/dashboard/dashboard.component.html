@@ -5,9 +5,9 @@
       <ng-template pTemplate="header">
       </ng-template>
       <p-chart type="doughnut" [data]="dadosPessoas" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
-      <ng-template pTemplate="footer">
-        <p-button label="Gerar Relatório" icon="pi pi-file-pdf" (click)="abrirOpcaoDeRelatorios()"></p-button>
-      </ng-template>
+<!--      <ng-template pTemplate="footer">-->
+<!--        <p-button label="Gerar Relatório" icon="pi pi-file-pdf" (click)="abrirOpcaoDeRelatorios()"></p-button>-->
+<!--      </ng-template>-->
     </p-card>
     <p-dialog header="Relatório de Pessoas Inscritas" [(visible)]="abrirTelaRelatorio">
       <app-report></app-report>
@@ -19,9 +19,9 @@
       <ng-template pTemplate="header">
       </ng-template>
       <p-chart type="polarArea" [data]="dadosCursos" [options]="chartOptions" [style]="{'width': '70%'}"></p-chart>
-      <ng-template pTemplate="footer">
-        <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>
-      </ng-template>
+<!--      <ng-template pTemplate="footer">-->
+<!--        <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>-->
+<!--      </ng-template>-->
     </p-card>
   </div>
 
@@ -30,9 +30,9 @@
       <ng-template pTemplate="header">
       </ng-template>
       <p-chart type="pie" [data]="dadosInscricoes" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
-      <ng-template pTemplate="footer">
-        <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>
-      </ng-template>
+<!--      <ng-template pTemplate="footer">-->
+<!--        <p-button label="Gerar Relatório" icon="pi pi-file-pdf"></p-button>-->
+<!--      </ng-template>-->
     </p-card>
   </div>
 

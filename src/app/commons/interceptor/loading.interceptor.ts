@@ -23,7 +23,7 @@ export class LoadingInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       //Remover quando subir para produção
-      delay(5000),
+      delay(1000),
       finalize(() => {
         this.requisicoesAtivas--;
 
