@@ -6,8 +6,8 @@
 
 O SCPCI WEB [Sistema de Cadastro de Pessoas, Cursos e Inscrições] consiste em:
 - Um CRUD de pessoa
-- Dashboard para consulta de estatítiscas
-- Consulta em api externa (correios), para os dados do endereço
+- Dashboard para consulta de estatísticas
+- Consulta em api externa (Via Cep), para os dados do endereço
 - Uma tela da Inscrição de uma Pessoa em um Curso
 - Uma tela para a funcionalidade de finalização das inscrições via API (com fila RabbitMQ)
 - Listagem de selecionados para as vagas
