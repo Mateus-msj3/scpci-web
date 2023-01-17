@@ -1,27 +1,64 @@
 # ScpciWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.9.
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/Mateus-msj3/license-mit)
 
-## Development server
+# Sobre o projeto
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+O SCPCI WEB [Sistema de Cadastro de Pessoas, Cursos e Inscrições] consiste em:
+- Um CRUD de pessoa
+- Dashboard para consulta de estatítiscas
+- Consulta em api externa (correios), para os dados do endereço
+- Uma tela da Inscrição de uma Pessoa em um Curso
+- Uma tela para a funcionalidade de finalização das inscrições via API (com fila RabbitMQ)
+- Listagem de selecionados para as vagas
 
-## Code scaffolding
+## Layout web
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Dashboard
+![Dashboard](https://github.com/Mateus-msj3/assets/raw/main/tela_dashboard.png)
 
-## Build
+### Cadastro de Pessoas
+![Pessoa_cadastro](https://github.com/Mateus-msj3/assets/raw/main/tela_pessoa_cadastro.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Detalhes de Pessoas
+![Pessoa_detalhes](https://github.com/Mateus-msj3/assets/raw/main/tela_pessoa_detalhes.png)
 
-## Running unit tests
+### Cadastro de Cursos
+![Curso](https://github.com/Mateus-msj3/assets/raw/main/tela_curso.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Crud de Inscrções
+![Inscrição](https://github.com/Mateus-msj3/assets/raw/main/tela_inscrição.png)
 
-## Running end-to-end tests
+# Tecnologias utilizadas
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Front end
+- HTML / CSS / JS / TypeScript
+- Angular
 
-## Further help
+## Integrações
+- API Via Cep
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Como executar o projeto
+
+## Front end
+Pré-requisitos: npm
+
+```bash
+# clonar repositório
+git clone https://github.com/Mateus-msj3/scpci-web.git
+
+# entrar na pasta do projeto front end web
+cd scpci-web
+
+# instalar dependências
+npm install
+
+# executar o projeto
+ng serve
+```
+
+# Autor
+
+Mateus Souza de Jesus
+
+https://www.linkedin.com/in/mateus-souza-de-jesus/
